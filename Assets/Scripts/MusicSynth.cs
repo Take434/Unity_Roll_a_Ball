@@ -8,7 +8,7 @@ public class NewBehaviourScript : MonoBehaviour
 {
     private double _phase;
     private double _sampleRate;
-    private float _frequency = 261.626f; //middle C
+    public float _frequency { get; set; }//middle C
     private float amplitude = 0.5f;
 
     void Awake()
