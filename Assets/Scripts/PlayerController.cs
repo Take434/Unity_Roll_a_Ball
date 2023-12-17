@@ -7,7 +7,6 @@ using TMPro;
 public class PlayerController : MonoBehaviour
 {
     public float speed = 0;
-    public NewBehaviourScript synth;
     public TextMeshProUGUI countText;
     public GameObject winTextObject;
     private Rigidbody rb;
@@ -18,7 +17,6 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        synth._frequency = 261.63f;
         rb = GetComponent<Rigidbody>();
         count = 0;
         SetCountText();
@@ -42,7 +40,6 @@ public class PlayerController : MonoBehaviour
             if(count >= 8)
             {
                 winTextObject.SetActive(true);
-                synth._frequency = 523.25f;
             }
         }
     }
