@@ -1,13 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class NewBehaviourScript : MonoBehaviour
 {
     private float _sampleRate;
     private float _time = 0.0f;
+    
+    private float attackTime = 0.05f;
+    private float decayTime = 0.1f;
+    private float sustainGain = 0.7f;
+    private float releaseTime = 0.1f;
 
     float[,] notes = new float[41,2] {
         {659.25f, 0.5f}, {493.88f, 0.25f}, {523.25f, 0.25f}, {587.33f, 0.5f},  {523.25f, 0.25f}, {493.88f, 0.25f},
@@ -62,7 +63,7 @@ public class NewBehaviourScript : MonoBehaviour
         float output = t % (1 / freq) / (1 / freq) * 2 - 1;
         output += t % (1 / freq * 1.005f) / (1 / freq * 1.005f) * 2 - 1;
         output += t % (1 / freq * 0.995f) / (1 / freq * 0.995f) * 2 - 1;
-        output += (float)Math.Pow(Math.Sin(2 * Math.PI * freq / 2 * t), 5);
+        output += (float)Mathf.Pow(Mathf.Sin(2 * Mathf.PI * freq / 2 * t), 5);
 
             
         return output / 4;
@@ -73,11 +74,6 @@ public class NewBehaviourScript : MonoBehaviour
     }
 
     float adsr(float sample, float t, float duration) {
-        float attackTime = 0.05f;
-        float decayTime = 0.1f;
-        float sustainGain = 0.7f;
-        float releaseTime = 0.1f;
-        
         if(t < attackTime) {
             sample *= lerp(t, 0, attackTime, 0, 1);
         } else if (t < attackTime + decayTime) {
