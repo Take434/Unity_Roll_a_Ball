@@ -7,7 +7,6 @@ using UnityEngine;
 public class NewBehaviourScript : MonoBehaviour
 {
     private float _sampleRate;
-    private float amplitude = 0.5f;
     private float _time = 0.0f;
 
     float[,] notes = new float[41,2] {
@@ -43,8 +42,8 @@ public class NewBehaviourScript : MonoBehaviour
 
                 if(t < duration) {
                     value = synth(freq, _time);
+                    value = adsr(value, t, duration);
                     break;
-                    // value = adsr(value, _time, duration);
                 }
 
                 t -= duration;
@@ -60,11 +59,12 @@ public class NewBehaviourScript : MonoBehaviour
     }
 
     float synth(float freq, float t) {
-        // float output = phase % 1 - 0.5f;
-        // output += phase % 1 * 1.005f - 0.5f;
-        // output += phase % 1 * 0.995f - 0.5f;
-        float output = (float)Math.Pow(Math.Sin(2 * Math.PI * freq * t), 5);
-        
+        float output = t % (1 / freq) / (1 / freq) * 2 - 1;
+        output += t % (1 / freq * 1.005f) / (1 / freq * 1.005f) * 2 - 1;
+        output += t % (1 / freq * 0.995f) / (1 / freq * 0.995f) * 2 - 1;
+        output += (float)Math.Pow(Math.Sin(2 * Math.PI * freq / 2 * t), 5);
+
+            
         return output / 4;
     }
 
